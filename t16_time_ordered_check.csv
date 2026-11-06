@@ -1,0 +1,6 @@
+,RMSE,MAE,R2_oos
+Benchmark,30.876,24.16,0.0
+Full OLS,31.405,23.543,-0.035
+Backward AIC,28.288,20.721,0.161
+Backward BIC,27.62,21.673,0.2
+Forward BIC,28.424,21.81,0.152

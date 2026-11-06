@@ -1,0 +1,4 @@
+,RMSE,MAE,R2_oos
+AR(14) one step ahead,60.031,26.969,0.565
+Naive (previous reading),66.438,26.651,0.468
+Benchmark (training mean),91.053,52.685,0.0

@@ -1,0 +1,5 @@
+,mean_diff,low,high,share_a_better
+Backward BIC - Benchmark,-6.181,-12.973,1.875,93.0
+Backward BIC - Full OLS,-2.148,-7.034,1.764,87.0
+Backward BIC - Backward AIC,-0.957,-4.35,2.243,65.5
+Backward BIC - Forward BIC,-1.018,-5.283,2.928,68.0

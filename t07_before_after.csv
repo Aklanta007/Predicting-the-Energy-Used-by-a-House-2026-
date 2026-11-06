@@ -1,0 +1,15 @@
+,10-minute base model,"Daily model (full, 25 covariates)"
+n,15788.0,136.0
+adjusted R2,0.1716,0.4437
+lag-1 residual autocorrelation,0.6886,0.0764
+Durbin-Watson D,0.6223,1.8429
+DW test p-value,0.0,0.3733
+Breusch-Pagan p-value,0.0,0.0085
+Cook-Weisberg p-value,0.0,0.0007
+residual skewness,3.2826,0.4282
+residual kurtosis,17.1884,3.4092
+skewness of response,3.322,0.8407
+skewness of log response,1.1272,0.0326
+max VIF,234.4054,798.2971
+number of VIF > 10,13.0,20.0
+condition number,62.2307,126.3943

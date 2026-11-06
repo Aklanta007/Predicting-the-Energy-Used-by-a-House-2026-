@@ -1,0 +1,6 @@
+,RMSE mean,RMSE sd,MAE mean,R2_oos mean,R2_oos sd,beats benchmark (% of splits),avg # variables
+Benchmark,30.112,3.54,23.525,0.0,0.0,,0.0
+Full OLS,26.079,3.424,20.376,0.21,0.318,82.5,25.0
+Backward AIC,24.888,3.348,19.347,0.285,0.253,88.5,9.305
+Backward BIC,23.931,3.401,18.662,0.339,0.239,93.0,6.885
+Forward BIC,24.949,3.005,19.528,0.283,0.233,89.5,6.44

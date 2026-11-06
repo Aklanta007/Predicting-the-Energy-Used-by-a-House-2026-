@@ -1,0 +1,9 @@
+,RMSE mean,RMSE sd,R2_oos,beats benchmark (%)
+Benchmark (training mean),30.112,3.54,0.0,
+True daily averages (all-day data),23.931,3.401,0.339,93.0
+"15:00 reading, model A",28.562,3.856,0.033,58.0
+"15:00 reading, model B",24.152,2.742,0.334,95.0
+"18:00 reading, model A",26.685,4.161,0.155,75.0
+"18:00 reading, model B",18.992,2.789,0.58,99.0
+"21:00 reading, model A",24.02,3.642,0.32,92.0
+"21:00 reading, model B",21.778,2.744,0.446,97.0

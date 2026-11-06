@@ -1,0 +1,9 @@
+k,RSS_best_subset,RSS_forward,RSS_backward,forward_is_best,backward_is_best
+1,114095.96,114095.96,119725.31,True,False
+2,90163.99,104768.93,90163.99,False,True
+3,79146.73,85653.19,83418.42,False,False
+4,75445.7,76172.42,77594.15,False,False
+5,70413.58,72983.91,73167.31,False,False
+6,65711.65,66824.07,65711.65,False,True
+7,61479.31,64298.11,61479.31,False,True
+8,60699.31,60998.76,60699.31,False,True

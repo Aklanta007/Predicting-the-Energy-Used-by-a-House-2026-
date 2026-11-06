@@ -1,0 +1,3 @@
+,RMSE,MAE,R2_oos
+Base OLS (25 covariates),86.733,52.014,0.093
+Benchmark (training mean),91.053,52.685,0.0

@@ -1,0 +1,314 @@
+data file: /Users/aklantaborah/Desktop/RTProject/energydata_complete.csv
+output folder: /Users/aklantaborah/Desktop/RTProject/RTimages
+
+==== 1. DATA ====
+rows, columns: (19735, 29)
+period: 2016-01-11 17:00:00 to 2016-05-27 18:00:00
+gaps between rows:
+date
+0 days 00:10:00    19734
+missing values: 0  duplicated rows: 0
+constant columns: none
+                mean       sd      min       max  n_unique  pct_zero
+Appliances    97.695  102.525   10.000  1080.000        92     0.000
+lights         3.802    7.936    0.000    70.000         8    77.284
+T1            21.687    1.606   16.790    26.260       722     0.000
+RH_1          40.260    3.979   27.023    63.360      2547     0.000
+T2            20.341    2.193   16.100    29.857      1650     0.000
+RH_2          40.420    4.070   20.463    56.027      3376     0.000
+T3            22.268    2.006   17.200    29.236      1426     0.000
+RH_3          39.243    3.255   28.767    50.163      2618     0.000
+T4            20.855    2.043   15.100    26.200      1390     0.000
+RH_4          39.027    4.341   27.660    51.090      2987     0.000
+T5            19.592    1.845   15.330    25.795      2263     0.000
+RH_5          50.949    9.022   29.815    96.322      7571     0.000
+T6             7.911    6.090   -6.065    28.290      4446     0.132
+RH_6          54.609   31.150    1.000    99.900      9709     0.000
+T7            20.267    2.110   15.390    26.000      1955     0.000
+RH_7          35.388    5.114   23.200    51.400      5891     0.000
+T8            22.029    1.956   16.307    27.230      2228     0.000
+RH_8          42.936    5.224   29.600    58.780      6649     0.000
+T9            19.486    2.015   14.890    24.500       924     0.000
+RH_9          41.552    4.151   29.167    53.327      3388     0.000
+T_out          7.412    5.317   -5.000    26.100      1730     0.137
+Press_mm_hg  755.523    7.399  729.300   772.300      2189     0.000
+RH_out        79.750   14.901   24.000   100.000       566     0.000
+Windspeed      4.040    2.451    0.000    14.000       189     0.030
+Visibility    38.331   11.795    1.000    66.000       413     0.000
+Tdewpoint      3.761    4.195   -6.600    15.500      1409     0.623
+rv1           24.988   14.497    0.005    49.997     19735     0.000
+rv2           24.988   14.497    0.005    49.997     19735     0.000
+
+rv1, rv2 correlation with Appliances:
+variable  corr_with_Appliances  p_value
+     rv1               -0.0111   0.1174
+     rv2               -0.0111   0.1174
+rv1 and rv2 identical columns? True
+number of covariates used: 25
+calendar days: 138  full days (144 readings): 136  partial days: {'2016-01-11': 42, '2016-05-27': 109}
+
+==== 1b. EDA ====
+Appliances: mean=97.69 median=60.0 sd=102.52 min=10 max=1080 skew=3.39 skew(log)=1.17
+IQR rule: Q1=50 Q3=100 upper fence=175; share above fence = 10.8%
+mean by hour: {0: 52.8, 1: 51.3, 2: 49.1, 3: 48.2, 4: 49.4, 5: 52.7, 6: 57.7, 7: 78.6, 8: 106.1, 9: 112.8, 10: 125.4, 11: 133.1, 12: 123.6, 13: 124.7, 14: 108.3, 15: 105.8, 16: 119.9, 17: 161.4, 18: 190.4, 19: 143.1, 20: 127.0, 21: 96.5, 22: 69.1, 23: 57.0}
+spike share by hour (%): {0: 0.6, 1: 0.2, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.9, 6: 1.9, 7: 7.2, 8: 15.8, 9: 16.2, 10: 18.6, 11: 21.5, 12: 19.8, 13: 20.3, 14: 15.1, 15: 12.5, 16: 15.6, 17: 26.4, 18: 33.7, 19: 15.9, 20: 9.2, 21: 5.2, 22: 2.2, 23: 0.9}
+largest |corr| with Appliances: {'lights': 0.197, 'RH_out': 0.152, 'T2': 0.12, 'T6': 0.118, 'T_out': 0.099}
+covariate pairs with |corr| > 0.9: [('T3', 'T9', 0.901), ('T5', 'T9', 0.911), ('T6', 'T_out', 0.975), ('T7', 'T9', 0.945)]
+
+VIF on all 10-min data: max=146.8 (T_out), number > 10: 15, number > 5: 20; condition number=50.1
+raw ACF: lag1=0.753 lag2=0.534 lag6=0.323 lag30=0.070 lag144 (one day)=0.215
+
+==== 2. BASE MODEL ====
+train rows=15788 (2016-01-11 17:00:00 to 2016-04-30 08:10:00)
+test rows=3947 (2016-04-30 08:20:00 to 2016-05-27 18:00:00)
+             estimate  std_error        t  p_value  marginal_corr
+Intercept    -67.2949   113.4109  -0.5934   0.5529            NaN
+T1            -6.3740     2.2392  -2.8466   0.0044         0.0554
+T2           -13.2054     2.0967  -6.2982   0.0000         0.1201
+T3            27.7093     1.2436  22.2817   0.0000         0.0851
+T4            -3.7953     1.0946  -3.4674   0.0005         0.0403
+T5            -1.6752     1.5091  -1.1101   0.2670         0.0198
+T6             7.6367     0.8343   9.1531   0.0000         0.1176
+T7             1.0760     1.5447   0.6965   0.4861         0.0258
+T8             9.0385     1.1059   8.1729   0.0000         0.0396
+T9           -14.3506     2.0815  -6.8942   0.0000         0.0100
+RH_1          12.8543     0.7583  16.9508   0.0000         0.0860
+RH_2         -12.4110     0.9127 -13.5976   0.0000        -0.0605
+RH_3           8.6344     0.8410  10.2665   0.0000         0.0363
+RH_4          -2.4451     0.7349  -3.3270   0.0009         0.0170
+RH_5           0.1057     0.1016   1.0401   0.2983         0.0070
+RH_6           0.3420     0.0810   4.2195   0.0000        -0.0832
+RH_7          -0.4892     0.4962  -0.9859   0.3242        -0.0556
+RH_8          -5.9602     0.4293 -13.8835   0.0000        -0.0940
+RH_9          -0.9987     0.4762  -2.0973   0.0360        -0.0515
+T_out         -8.6264     2.8255  -3.0530   0.0023         0.0992
+Press_mm_hg    0.2234     0.1176   1.8999   0.0575        -0.0349
+RH_out        -0.5209     0.5245  -0.9931   0.3207        -0.1523
+Windspeed      1.2735     0.3965   3.2119   0.0013         0.0871
+Visibility     0.1897     0.0630   3.0107   0.0026         0.0002
+Tdewpoint      3.6997     2.7771   1.3322   0.1828         0.0154
+lights         2.1394     0.1047  20.4328   0.0000         0.1973
+R2=0.1729 adjR2=0.1716 F=131.8 (p=0.00e+00) sigma_hat=95.75
+significant coefficients with sign opposite to marginal correlation: ['T1', 'T2', 'T4', 'T9', 'RH_4', 'RH_6', 'T_out']
+
+out of sample, last 20%:
+                             RMSE     MAE  R2_oos
+Base OLS (25 covariates)   86.733  52.014   0.093
+Benchmark (training mean)  91.053  52.685   0.000
+negative predictions: 45 of 3947
+[base] DW=0.622  lag1 r=0.689  z=86.53  p=0.00e+00
+[base] Breusch-Pagan S=4647.78 (df=25)  p=0
+[base] Cook-Weisberg S=3980.26 (df=1)  p=0
+[base] residual skewness=3.28  kurtosis=17.19
+
+==== 3. TIME SERIES (AR) ====
+AR order chosen by AIC: 14;  by BIC: 12
+AR intercept: 13.806  phi (first 5): [ 0.794 -0.179  0.084  0.013  0.026]
+
+one step ahead, last 20%:
+                             RMSE     MAE  R2_oos
+AR(14) one step ahead      60.031  26.969   0.565
+Naive (previous reading)   66.438  26.651   0.468
+Benchmark (training mean)  91.053  52.685   0.000
+AR residuals: DW=2.051 lag1 r=-0.026 p=9.93e-02;  ACF at lag 144 = 0.087
+AR RMSE by horizon (10, 30, 60, 120, 240, 360 min): {10: 59.9, 30: 77.9, 60: 81.6, 120: 83.9, 240: 87.2, 360: 87.5}
+how far back does the AR model look? 14 readings = 140 minutes
+
+==== 4. DAILY DATA ====
+days: 136  first/last day: 2016-01-12 2016-05-26  consecutive: True
+daily Appliances: mean=97.40 sd=30.33 min=37.5 max=188.5 skew=0.84 skew(log)=0.03
+daily full model (25 covariates): R2=0.5467 adjR2=0.4437
+
+before vs after:
+                                10-minute base model  Daily model (full, 25 covariates)
+n                                         15788.0000                           136.0000
+adjusted R2                                   0.1716                             0.4437
+lag-1 residual autocorrelation                0.6886                             0.0764
+Durbin-Watson D                               0.6223                             1.8429
+DW test p-value                               0.0000                             0.3733
+Breusch-Pagan p-value                         0.0000                             0.0085
+Cook-Weisberg p-value                         0.0000                             0.0007
+residual skewness                             3.2826                             0.4282
+residual kurtosis                            17.1884                             3.4092
+skewness of response                          3.3220                             0.8407
+skewness of log response                      1.1272                             0.0326
+max VIF                                     234.4054                           798.2971
+number of VIF > 10                           13.0000                            20.0000
+condition number                             62.2307                           126.3943
+[daily full] DW=1.843  lag1 r=0.076  z=0.89  p=3.73e-01
+[daily full] Breusch-Pagan S=44.92 (df=25)  p=0.00854
+[daily full] Cook-Weisberg S=11.37 (df=1)  p=0.000745
+[daily full] residual skewness=0.43  kurtosis=3.41
+
+==== 4b. MODEL BUILDING (all 136 days) ====
+all possible regressions up to size 8 took 2s
+does stepwise find the best subset of each size?
+ k  RSS_best_subset  RSS_forward  RSS_backward  forward_is_best  backward_is_best
+ 1         114096.0     114096.0      119725.3             True             False
+ 2          90164.0     104768.9       90164.0            False              True
+ 3          79146.7      85653.2       83418.4            False             False
+ 4          75445.7      76172.4       77594.2            False             False
+ 5          70413.6      72983.9       73167.3            False             False
+ 6          65711.6      66824.1       65711.6            False              True
+ 7          61479.3      64298.1       61479.3            False              True
+ 8          60699.3      60998.8       60699.3            False              True
+
+model chosen by each criterion:
+  method criterion  size                                                     variables
+ forward     adjR2    12 T3, T4, T5, T7, T8, T9, RH_1, RH_2, RH_6, RH_7, T_out, lights
+ forward        Cp     8                     T3, T4, T7, T9, RH_1, RH_7, T_out, lights
+ forward       AIC     8                     T3, T4, T7, T9, RH_1, RH_7, T_out, lights
+ forward       BIC     8                     T3, T4, T7, T9, RH_1, RH_7, T_out, lights
+ forward     LOOCV     8                     T3, T4, T7, T9, RH_1, RH_7, T_out, lights
+backward     adjR2    12 T3, T4, T5, T7, T8, T9, RH_1, RH_2, RH_6, RH_7, T_out, lights
+backward        Cp     7                            T3, T4, T7, T9, RH_1, RH_7, lights
+backward       AIC     7                            T3, T4, T7, T9, RH_1, RH_7, lights
+backward       BIC     7                            T3, T4, T7, T9, RH_1, RH_7, lights
+backward     LOOCV     7                            T3, T4, T7, T9, RH_1, RH_7, lights
+BIC of candidate models: {'forward': 874.62, 'backward': 870.78, 'best subset k=1': 925.4, 'best subset k=2': 898.29, 'best subset k=3': 885.48, 'best subset k=4': 883.88, 'best subset k=5': 879.41, 'best subset k=6': 874.92, 'best subset k=7': 870.78, 'best subset k=8': 873.95}
+FINAL model chosen (lowest BIC): backward -> ['T3', 'T4', 'T7', 'T9', 'RH_1', 'RH_7', 'lights']
+forward BIC model: ['T3', 'T4', 'T7', 'T9', 'RH_1', 'RH_7', 'T_out', 'lights']  BIC difference vs final = 3.85
+
+==== 4c. BOX-COX ====
+Box-Cox lambda_hat=0.16, 95% interval approx [-0.26, 0.56]; contains 0 (log)? True;  contains 1 (no transform)? False
+residual skewness raw=0.32, log=-0.15;  BP p raw=0.012, log=0.021
+
+==== 4d. FINAL DAILY MODEL ====
+           estimate  std_error      t  p_value   CI_low  CI_high  std_coef (per 1 sd)
+Intercept   -78.203     32.096 -2.437    0.016 -141.710  -14.696               97.396
+T3           32.773      3.421  9.580    0.000   26.004   39.542               62.432
+T4          -10.813      3.091 -3.498    0.001  -16.930   -4.696              -21.019
+T7           18.404      3.911  4.705    0.000   10.665   26.144               37.707
+T9          -36.464      5.449 -6.692    0.000  -47.246  -25.683              -72.980
+RH_1          3.926      1.322  2.968    0.004    1.309    6.543               14.135
+RH_7         -4.509      1.006 -4.483    0.000   -6.500   -2.519              -20.816
+lights        2.827      0.716  3.948    0.000    1.410    4.244                8.931
+R2=0.5049 adjR2=0.4779 F=18.65 (p=5.70e-17) sigma_hat=21.92
+EQUATION (daily means): avg_energy = -78.20 + 32.77*T3 - 10.81*T4 + 18.40*T7 - 36.46*T9 + 3.93*RH_1 - 4.51*RH_7 + 2.83*lights
+VIF inside final model: {'T3': 11.9, 'T4': 10.1, 'T7': 18.1, 'T9': 33.4, 'RH_1': 6.4, 'RH_7': 6.1, 'lights': 1.4}  condition number: 14.0
+[final] DW=1.836  lag1 r=0.078  z=0.91  p=3.63e-01
+[final] Breusch-Pagan S=17.98 (df=7)  p=0.0121
+[final] Cook-Weisberg S=10.22 (df=1)  p=0.00139
+[final] residual skewness=0.32  kurtosis=3.32
+largest cook's-type check: max |standardized residual| = 3.25
+
+WLS check:
+              OLS  WLS (var ~ mean^2)
+Intercept -78.203             -72.623
+T3         32.773              29.059
+T4        -10.813              -9.172
+T7         18.404              15.190
+T9        -36.464             -30.215
+RH_1        3.926               2.920
+RH_7       -4.509              -3.887
+lights      2.827               4.078
+Breusch-Pagan p on weighted residuals: 0.414  Cook-Weisberg p: 0.838
+
+==== 4e. EVALUATION OF DAILY MODELS ====
+
+200 random 80/20 splits:
+              RMSE mean  RMSE sd  MAE mean  R2_oos mean  R2_oos sd  beats benchmark (% of splits)  avg # variables
+Benchmark        30.112    3.540    23.525        0.000      0.000                            NaN            0.000
+Full OLS         26.079    3.424    20.376        0.210      0.318                           82.5           25.000
+Backward AIC     24.888    3.348    19.347        0.285      0.253                           88.5            9.305
+Backward BIC     23.931    3.401    18.662        0.339      0.239                           93.0            6.885
+Forward BIC      24.949    3.005    19.528        0.283      0.233                           89.5            6.440
+
+paired RMSE differences (negative = first one better):
+                             mean_diff     low   high  share_a_better
+Backward BIC - Benchmark        -6.181 -12.973  1.875            93.0
+Backward BIC - Full OLS         -2.148  -7.034  1.764            87.0
+Backward BIC - Backward AIC     -0.957  -4.350  2.243            65.5
+Backward BIC - Forward BIC      -1.018  -5.283  2.928            68.0
+
+how often each variable is picked by backward BIC (% of splits): {'T9': 100.0, 'T3': 100.0, 'T7': 95.0, 'lights': 94.0, 'T4': 93.0, 'RH_7': 80.5, 'RH_1': 69.0, 'RH_3': 14.5, 'RH_4': 12.0, 'T8': 7.0, 'T5': 5.5, 'T_out': 4.5}
+
+time ordered check (train on early days, test on days 81-136, 56 test days):
+                RMSE     MAE  R2_oos
+Benchmark     30.876  24.160   0.000
+Full OLS      31.405  23.543  -0.035
+Backward AIC  28.288  20.721   0.161
+Backward BIC  27.620  21.673   0.200
+Forward BIC   28.424  21.810   0.152
+95% prediction intervals (backward BIC model): coverage=93.8% (sd 4.9), average width=90.5
+
+==== 5. COMBINED MODEL ====
+
+combined model, 200 splits:
+                                    RMSE mean  RMSE sd  R2_oos  beats benchmark (%)
+Benchmark (training mean)              30.112    3.540   0.000                  NaN
+True daily averages (all-day data)     23.931    3.401   0.339                 93.0
+15:00 reading, model A                 28.562    3.856   0.033                 58.0
+15:00 reading, model B                 24.152    2.742   0.334                 95.0
+18:00 reading, model A                 26.685    4.161   0.155                 75.0
+18:00 reading, model B                 18.992    2.789   0.580                 99.0
+21:00 reading, model A                 24.020    3.642   0.320                 92.0
+21:00 reading, model B                 21.778    2.744   0.446                 97.0
+
+paired RMSE differences between reading times (negative = first time better):
+                        mean_diff     low   high  share_a_better
+model B: 21:00 - 18:00      2.786  -2.215  8.416            13.0
+model B: 21:00 - 15:00     -2.374  -9.802  4.133            78.5
+model B: 18:00 - 15:00     -5.160 -12.272  1.064            94.0
+model A: 21:00 - 18:00     -2.665 -10.315  5.865            75.0
+model A: 21:00 - 15:00     -4.542 -12.394  3.972            83.5
+model A: 18:00 - 15:00     -1.877  -7.999  4.549            71.0
+
+RMSE by reading hour:
+ hour  RMSE_A  RMSE_B
+    0   37.23   30.93
+    1   37.01   30.97
+    2   36.74   31.07
+    3   36.63   31.15
+    4   36.15   31.05
+    5   36.01   30.89
+    6   35.25   31.04
+    7   35.15   31.09
+    8   35.98   31.15
+    9   37.18   31.04
+   10   34.32   31.59
+   11   31.28   30.50
+   12   27.73   27.00
+   13   28.15   26.66
+   14   27.64   25.67
+   15   28.56   24.15
+   16   29.13   22.18
+   17   28.73   20.75
+   18   26.69   18.99
+   19   25.59   19.10
+   20   23.71   19.61
+   21   24.02   21.78
+   22   24.58   23.08
+   23   25.92   22.07
+
+stage 1: R2 between the reading and the daily average of the same variable:
+             15:00  18:00  21:00
+T1           0.925  0.899  0.851
+T2           0.895  0.907  0.833
+T3           0.924  0.898  0.924
+T4           0.953  0.928  0.900
+T5           0.980  0.946  0.820
+T6           0.912  0.884  0.873
+T7           0.938  0.937  0.968
+T8           0.914  0.916  0.935
+T9           0.996  0.994  0.989
+RH_1         0.881  0.725  0.837
+RH_2         0.787  0.827  0.813
+RH_3         0.926  0.917  0.850
+RH_4         0.947  0.913  0.858
+RH_5         0.416  0.322  0.180
+RH_6         0.922  0.945  0.936
+RH_7         0.911  0.856  0.819
+RH_8         0.909  0.846  0.800
+RH_9         0.914  0.872  0.800
+T_out        0.897  0.888  0.902
+Press_mm_hg  0.971  0.945  0.901
+RH_out       0.754  0.747  0.707
+Windspeed    0.727  0.493  0.486
+Visibility   0.020  0.016  0.250
+Tdewpoint    0.889  0.847  0.843
+lights       0.293  0.221  0.382
+
+All done in 218 seconds.
+Files saved in: /Users/aklantaborah/Desktop/RTProject/RTimages
+['fig01_time_series.png', 'fig02_hourly_pattern.png', 'fig03_corr_heatmap.png', 'fig04_corr_ranked.png', 'fig05_vif.png', 'fig06_acf_pacf_raw.png', 'fig07_base_residual_panel.png', 'fig08_ar_order.png', 'fig09_ar_horizon.png', 'fig10_ar_resid_acf.png', 'fig11_before_after.png', 'fig13_selection_criteria.png', 'fig14_boxcox.png', 'fig15_final_residual_panel.png', 'fig16_split_rmse.png', 'fig17_stage1_r2.png', 'fig18_rmse_by_hour.png', 'results_log.txt', 't01_data_summary.csv', 't02_rv_correlation.csv', 't03_corr_with_Appliances.csv', 't04_base_coefficients.csv', 't05_base_metrics.csv', 't06_ar_metrics.csv', 't06b_ar_horizon.csv', 't07_before_after.csv', 't08_vif.csv', 't09a_forward_path.csv', 't09b_backward_path.csv', 't09c_best_subset_check.csv', 't10_selection_summary.csv', 't11_final_coefficients.csv', 't12_wls_check.csv', 't13_split_evaluation.csv', 't14_paired_differences.csv', 't15_selection_frequency.csv', 't16_time_ordered_check.csv', 't17_combined_model.csv', 't18_reading_time_paired.csv', 't19_rmse_by_hour.csv', 't20_stage1_r2.csv']
